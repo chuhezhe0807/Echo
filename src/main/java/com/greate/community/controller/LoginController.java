@@ -140,7 +140,7 @@ public class LoginController implements CommunityConstant {
         response.addCookie(cookie);
         // 将验证码存入 redis
         String redisKey = RedisKeyUtil.getKaptchaKey(kaptchaOwner);
-        redisTemplate.opsForValue().set(redisKey, text, 60, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(redisKey, text, 600, TimeUnit.SECONDS);
 
         // 将图片输出给浏览器
         response.setContentType("image/png");

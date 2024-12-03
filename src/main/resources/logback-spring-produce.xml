@@ -2,7 +2,7 @@
 <configuration>
     <contextName>community</contextName>
     <property name="LOG_PATH" value="D:\WorkSpace_BackEnd\IdeaProjects\Echo\log"/>
-    <property name="APPDIR" value="community"/>
+    <property name="APPDIR" value="produce"/>
 
     <!-- error file -->
     <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">

@@ -54,8 +54,8 @@ public class DiscussPostService {
     public void init() {
         // 初始化热帖列表缓存
         postListCache = Caffeine.newBuilder()
-                .maximumSize(maxSize)
-                .expireAfterWrite(expireSeconds, TimeUnit.SECONDS)
+                .maximumSize(maxSize) // 最大容量
+                .expireAfterWrite(expireSeconds, TimeUnit.SECONDS) // 过期时间
                 .build(new CacheLoader<String, List<DiscussPost>>() {
                     // 如果缓存Caffeine中没有数据，告诉缓存如何去数据库中查数据，再装到缓存中
                     @Nullable
@@ -72,8 +72,6 @@ public class DiscussPostService {
 
                         int offset = Integer.valueOf(params[0]);
                         int limit = Integer.valueOf(params[1]);
-
-                        // 此处可以再访问二级缓存 Redis
 
                         logger.debug("load post list from DB");
                         return discussPostMapper.selectDiscussPosts(0, offset, limit, 1);
@@ -107,7 +105,8 @@ public class DiscussPostService {
      */
     public List<DiscussPost> findDiscussPosts (int userId, int offset, int limit, int orderMode) {
         // 查询本地缓存(当查询的是所有用户的帖子并且按照热度排序时)
-        if (userId == 0 && orderMode == 1) {
+        // 缓存一定是缓存常用、经常访问的数据，所以有下面的 userId == 0 && orderMode == 0 判断，orderMode判断改为0，首页默认选中是最新排序
+        if (userId == 0 && orderMode == 0) {
             return postListCache.get(offset + ":" + limit);
         }
         // 查询数据库

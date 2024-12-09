@@ -41,6 +41,10 @@
     </select>
 
     <!--插入/添加帖子-->
+    <!-- useGeneratedKeys 为true说明使用数据库的自增主键 -->
+    <!-- 很多数据库表都要求有一个主键，主键可以是手动生成的（如UUID），也可以是数据库自动生成的（如自增字段）  -->
+    <!-- keyProperty 用于指定mybatis在执行插入操作之后，如何从数据库获取生成的主键值    -->
+    <!-- 下面的语句中 keyProperty="id" 表示告诉mybatis，在执行插入操作之后，将数据库的id(discuss_post表的主键字段)值设置到 DiscussPost 对象的id属性中  -->
     <insert id="insertDiscussPost" parameterType="DiscussPost" keyProperty="id">
         insert into discuss_post (<include refid="insertFields"></include>)
         values(#{userId}, #{title}, #{content}, #{type}, #{status}, #{createTime}, #{commentCount}, #{score})
